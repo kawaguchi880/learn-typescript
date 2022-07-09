@@ -1,6 +1,9 @@
+"use strict";
+exports.__esModule = true;
 //型について
 //boolean型
-var hasVavle = false;
+var hasVavle0 = false;
+var hasVavle1 = false;
 //munber型
 var count = 10;
 var float = 3.14;
@@ -9,7 +12,109 @@ var negative = -0.12;
 var single = 'hello';
 var double = "hello";
 var back = "hello";
-//型がほんとに正しいのか？？
-//変数へホバーすると，表示される．
-//この表示はvscode内に搭載されているtsc(typescriptコンパイラ)が認識しているので正しい．
-console.log(double);
+//axiosをctrl + クリックでaxiosのコードを見ることができる．
+//因みにjsのファイルからでも同様．
+//オブジェクトの書きかた．(敢えて型注釈)
+var person = {
+    name: {
+        first: 'Jack',
+        last: 'Smith'
+    },
+    age: 21
+};
+//配列型
+var fruits = ['Apple', 'Banana', 'Grape'];
+//エラーが出る→fruits.push(21);
+var fruit = fruits[0];
+// 
+var book1 = ['bussiness', 1500, false];
+// 必ず一つ目にstr,二つ目にnum,三つ目にbooleanのみを入れたい時,tuple型を使う．
+// 書きかたは以下の通りで型注釈で書く．
+var book2 = ['bussiness', 1500, false];
+// あとから足す分にはエラーは出ないがどのみち参照する際にエラーが出る．
+book1.push(21);
+// enum型(列挙型)について
+// sizeが4つの値のみを取るようにしたい
+var CoffeeSize;
+(function (CoffeeSize) {
+    CoffeeSize[CoffeeSize["SHORT"] = 0] = "SHORT";
+    CoffeeSize["TALL"] = "TALL";
+    CoffeeSize[CoffeeSize["GRANDE"] = 21] = "GRANDE";
+    CoffeeSize["VENTI"] = "VENTI";
+    // SHORTは何も書いてなくてもエラーが出ない．CoffeeSize.SHORTは0が入っている．
+    // enumは文字列である必要はない．GRANDE = 21としているのでもしVENTIを初期化しなかったら22が入る．
+    // enumは基本的に大文字で書く．
+})(CoffeeSize || (CoffeeSize = {}));
+var coffee = {
+    hot: true,
+    size: CoffeeSize.TALL
+};
+// 下二つはエラーが出る．
+// coffee.size = true;
+// coffee.size = 'SHORT';
+coffee.size = CoffeeSize.SHORT;
+// any型はなんでも入る．
+var anything = true;
+anything = 'hello';
+anything = ['hello', 33, true];
+var banana = 'banana';
+// 以下のコードが許されてしまう．anyが絡むことに関しては全くエラーは出さない．ので出来る限りany型は使わない．
+banana = anything;
+// union型について
+var unionType = 10;
+unionType = 'hello';
+// unionType.関数で関数を見るとnumberとstringだけの関数のみが出る．その他はエラーが出る．
+// リテラル型について
+// ↓この変数appleは文字列appleしか入れられなくなる．つまり，その値しか入らない．
+var apple = 'apple';
+// const で定義するとリテラル型が，letだとstring型として型推論される．
+//union型とリテラル型でenumのような扱いができる．
+var clothSize = 'large';
+// しかし，enumのようにclothSize.〇〇とかできない．
+var cloth = {
+    color: 'white',
+    size: 'medium'
+};
+// 関数に型を付ける．変数と戻り値
+// 型推論は戻り値には付く．しかし関数は長くなりがちなのでなるべく書くべき！
+function add(num1, num2) {
+    return num1 + num2;
+}
+// 戻り値が何もないとき
+// undiifned型はreturn がないと使えない．
+// voidはどちらも使える．基本的にはvoidを使う．
+function sayHello() {
+    console.log('Hello!');
+}
+// 関数を保持する変数に付ける型についての書きかた
+// 型推論は
+var anotherAdd = add;
+// arrow関数に型付け
+// arrow関数部分：number => number * 2
+// 定義部分：const doubleNumber: (num: number) => number 
+var doubleNumber = function (number) { return number * 2; };
+// コールバック関数
+function doubleAndHandle(num, cb) {
+    var doubleNum = cb(num * 2);
+    console.log(num * 2);
+}
+doubleAndHandle(21, function (doubleNum) {
+    return doubleNum;
+});
+// unknown型
+var unknownInput;
+var aynInput;
+var text;
+unknownInput = 'hello';
+unknownInput = 21;
+unknownInput = true;
+// text = unknownInput;←エラーが出る．
+// 代入する際はtypeofで保障してあげる必要がある．
+if (typeof unknownInput == 'string') {
+    text = unknownInput;
+}
+// never型 必ず何も返さない
+function error(message) {
+    throw new Error(message);
+}
+console.log(error('This is an error'));
