@@ -3,7 +3,7 @@
 let hasVavle0: boolean = false;
 let hasVavle1= false;
 //munber型
-let count: number = 10;
+let count: number = 12;
 let float: number = 3.14;
 let negative: number = -0.12;
 
